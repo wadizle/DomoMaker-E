@@ -9,7 +9,7 @@ const makerPage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred' });
     }
 
-    //console.log(docs);
+    // console.log(docs);
     return res.render('app', { csrfToken: req.csrfToken(), domos: docs });
   });
 };
