@@ -60,6 +60,16 @@ const DomoList = function (props) {
 	);
 };
 
+const UserProfile = function (props) {
+	return (
+		<div>
+			<h3>Username: </h3><p> {props.profile.username}</p>
+			<h3>Age: </h3><p> {props.profile.age}</p>
+			<h3>Date Created: </h3><p> {props.profile.createdDate}</p>
+		</div>
+	);
+};
+
 const loadDomosFromServer = () => {
 	sendAjax('GET', '/getDomos', null, (data) => {
 		ReactDOM.render(
@@ -68,7 +78,7 @@ const loadDomosFromServer = () => {
 	});
 };
 
-const setup = function (csrf) {
+const createDomoWindow = (csrf) => {
 	ReactDOM.render(
 		<DomoForm csrf={csrf} />, document.querySelector("#makeDomo")
 	);
@@ -78,6 +88,37 @@ const setup = function (csrf) {
 	);
 
 	loadDomosFromServer();
+};
+
+const createProfileWindow = () => {
+	ReactDOM.render(
+		null, document.querySelector("#makeDomo")
+	);
+
+	sendAjax('GET', '/getProfile', null, (data) => {
+		ReactDOM.render(
+			<UserProfile profile={data.profile} />, document.querySelector("#domos")
+		);
+	});
+};
+
+const setup = function (csrf) {
+	const domoButton = document.querySelector("#showDomos");
+	const profileButton = document.querySelector("#showProfile");
+
+	domoButton.addEventListener("click", (e) => {
+		e.preventDefault();
+		createDomoWindow(csrf);
+		return false;
+	});
+
+	profileButton.addEventListener("click", (e) => {
+		e.preventDefault();
+		createProfileWindow();
+		return false;
+	});
+
+	createDomoWindow(csrf);
 };
 
 const getToken = () => {

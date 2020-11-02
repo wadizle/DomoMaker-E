@@ -23,6 +23,10 @@ const AccountSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    },
+  age: {
+      type: Number,
+      required: true,
   },
   createdDate: {
     type: Date,
@@ -32,8 +36,10 @@ const AccountSchema = new mongoose.Schema({
 
 AccountSchema.statics.toAPI = (doc) => ({
   // _id is built into your mongo document and is guaranteed to be unique
-  username: doc.username,
-  _id: doc._id,
+    username: doc.username,
+    age: doc.age,
+    _id: doc._id,
+    createdDate: new Date(doc.createdDate).toString(),
 });
 
 const validatePassword = (doc, password, callback) => {

@@ -6,6 +6,10 @@ const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
+const getProfile = (req, res) => {
+    return res.json({ profile: req.session.account });
+};
+
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
@@ -28,7 +32,8 @@ const login = (request, response) => {
       return res.status(401).json({ error: 'Wrong name or password' });
     }
 
-    req.session.account = Account.AccountModel.toAPI(account);
+      req.session.account = Account.AccountModel.toAPI(account);
+      //console.log(req.session.account);
 
     return res.json({ redirect: '/maker' });
   });
@@ -42,8 +47,9 @@ const signup = (request, response) => {
   req.body.username = `${req.body.username}`;
   req.body.pass = `${req.body.pass}`;
   req.body.pass2 = `${req.body.pass2}`;
+  req.body.age = `${req.body.age}`;
 
-  if (!req.body.username || !req.body.pass || !req.body.pass2) {
+    if (!req.body.username || !req.body.pass || !req.body.pass2 || !req.body.age) {
     return res.status(400).json({ error: 'RAWR! All fields are required' });
   }
 
@@ -51,11 +57,16 @@ const signup = (request, response) => {
     return res.status(400).json({ error: 'RAWR! Passwords do not match' });
   }
 
+    if (!parseInt(req.body.age)) {
+        return res.status(400).json({ error: 'Age must be a number' });
+    }
+
   return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
     const accountData = {
       username: req.body.username,
       salt,
       password: hash,
+      age: req.body.age,
     };
 
     const newAccount = new Account.AccountModel(accountData);
@@ -94,4 +105,5 @@ module.exports.loginPage = loginPage;
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
+module.exports.getProfile = getProfile;
 module.exports.getToken = getToken;

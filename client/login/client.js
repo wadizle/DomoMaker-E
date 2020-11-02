@@ -20,7 +20,7 @@ const handleSignup = (e) => {
 
 	$("#domoMessage").animate({width:'hide'}, 350);
 
-	if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
+	if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '' || $("#age").val() == '') {
 		handleError("RAWR! All fields are required");
 		return false;
 	}
@@ -68,6 +68,10 @@ const SignupWindow = (props) => {
 			<input id="pass" type="password" name="pass" placeholder="password"></input>
 			<label htmlFor="pass2">Password: </label>
 			<input id="pass2" type="password" name="pass2" placeholder="retype password"></input>
+
+			<label htmlFor="age">Age: </label>
+			<input id="age" type="text" name="age" placeholder="age"></input>
+
 			<input type="hidden" name="_csrf" value={props.csrf}></input>
 			<input className="formSubmit" type="submit" value="Sign Up"></input>
 		</form>

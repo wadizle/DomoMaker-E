@@ -78,6 +78,10 @@ var DomoList = function DomoList(props) {
   }, domoNodes);
 };
 
+var UserProfile = function UserProfile(props) {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", null, "Username: "), /*#__PURE__*/React.createElement("p", null, " ", props.profile.username), /*#__PURE__*/React.createElement("h3", null, "Age: "), /*#__PURE__*/React.createElement("p", null, " ", props.profile.age), /*#__PURE__*/React.createElement("h3", null, "Date Created: "), /*#__PURE__*/React.createElement("p", null, " ", props.profile.createdDate));
+};
+
 var loadDomosFromServer = function loadDomosFromServer() {
   sendAjax('GET', '/getDomos', null, function (data) {
     ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
@@ -86,7 +90,7 @@ var loadDomosFromServer = function loadDomosFromServer() {
   });
 };
 
-var setup = function setup(csrf) {
+var createDomoWindow = function createDomoWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(DomoForm, {
     csrf: csrf
   }), document.querySelector("#makeDomo"));
@@ -94,6 +98,31 @@ var setup = function setup(csrf) {
     domos: []
   }), document.querySelector("#domos"));
   loadDomosFromServer();
+};
+
+var createProfileWindow = function createProfileWindow() {
+  ReactDOM.render(null, document.querySelector("#makeDomo"));
+  sendAjax('GET', '/getProfile', null, function (data) {
+    ReactDOM.render( /*#__PURE__*/React.createElement(UserProfile, {
+      profile: data.profile
+    }), document.querySelector("#domos"));
+  });
+};
+
+var setup = function setup(csrf) {
+  var domoButton = document.querySelector("#showDomos");
+  var profileButton = document.querySelector("#showProfile");
+  domoButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    createDomoWindow(csrf);
+    return false;
+  });
+  profileButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    createProfileWindow();
+    return false;
+  });
+  createDomoWindow(csrf);
 };
 
 var getToken = function getToken() {

@@ -22,7 +22,7 @@ var handleSignup = function handleSignup(e) {
     width: 'hide'
   }, 350);
 
-  if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
+  if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '' || $("#age").val() == '') {
     handleError("RAWR! All fields are required");
     return false;
   }
@@ -98,6 +98,13 @@ var SignupWindow = function SignupWindow(props) {
     type: "password",
     name: "pass2",
     placeholder: "retype password"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "age"
+  }, "Age: "), /*#__PURE__*/React.createElement("input", {
+    id: "age",
+    type: "text",
+    name: "age",
+    placeholder: "age"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
