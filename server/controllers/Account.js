@@ -6,9 +6,7 @@ const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
-const getProfile = (req, res) => {
-    return res.json({ profile: req.session.account });
-};
+const getProfile = (req, res) => res.json({ profile: req.session.account });
 
 const logout = (req, res) => {
   req.session.destroy();
@@ -32,8 +30,8 @@ const login = (request, response) => {
       return res.status(401).json({ error: 'Wrong name or password' });
     }
 
-      req.session.account = Account.AccountModel.toAPI(account);
-      //console.log(req.session.account);
+    req.session.account = Account.AccountModel.toAPI(account);
+    // console.log(req.session.account);
 
     return res.json({ redirect: '/maker' });
   });
@@ -49,7 +47,7 @@ const signup = (request, response) => {
   req.body.pass2 = `${req.body.pass2}`;
   req.body.age = `${req.body.age}`;
 
-    if (!req.body.username || !req.body.pass || !req.body.pass2 || !req.body.age) {
+  if (!req.body.username || !req.body.pass || !req.body.pass2 || !req.body.age) {
     return res.status(400).json({ error: 'RAWR! All fields are required' });
   }
 
@@ -57,9 +55,9 @@ const signup = (request, response) => {
     return res.status(400).json({ error: 'RAWR! Passwords do not match' });
   }
 
-    if (!parseInt(req.body.age)) {
-        return res.status(400).json({ error: 'Age must be a number' });
-    }
+  if (!parseInt(req.body.age, 10)) {
+    return res.status(400).json({ error: 'Age must be a number' });
+  }
 
   return Account.AccountModel.generateHash(req.body.pass, (salt, hash) => {
     const accountData = {

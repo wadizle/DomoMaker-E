@@ -19,9 +19,9 @@ const makeDomo = (req, res) => {
     return res.status(400).json({ error: 'RAWR! Both name and age are required' });
   }
 
-    if (!parseInt(req.body.age)) {
-        return res.status(400).json({ error: 'Age must be a number' });
-    }
+  if (!parseInt(req.body.age, 10)) {
+    return res.status(400).json({ error: 'Age must be a number' });
+  }
 
   const domoData = {
     name: req.body.name,
@@ -40,7 +40,6 @@ const makeDomo = (req, res) => {
     if (err.code === 11000) {
       return res.status(400).json({ error: 'Domo already exists.' });
     }
-
 
     return res.status(400).json({ error: 'An error occurred' });
   });
