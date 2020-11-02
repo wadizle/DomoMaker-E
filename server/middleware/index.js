@@ -13,6 +13,7 @@ const requiresLogout = (req, res, next) => {
 };
 
 const requiresSecure = (req, res, next) => {
+  //this causes infinite redirects after Part D...
   //if (req.headers['x-forward-proto'] !== 'https') {
   //  return res.redirect(`https://${req.hostname}${req.url}`);
   //}
